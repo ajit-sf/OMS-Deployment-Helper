@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>OMS Order Entry Summary and Submit V1</masterLabel>
+    <description>Component used for Summary and Submit</description>
+    <targets>
+        <target>lightning__FlowScreen</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="recordId" label="Record Id" type="String" />
+            <property name="webstoreId" label="Webstore Id" type="String" />
+            <property name="searchResultFields" label="Search Result fields (Comma seperated API's)" type="String" />
+            <property name="generatedCartId" label="Cart Id" type="String" />
+            <property name="searchResultFieldsLabel" label="Automatically generated field labels" type="String" />
+            <property name="cartGroupDelivery" type="@salesforce/schema/CartDeliveryGroup" label="Created Cart Delivery Group"  />
+            <property name="cartDeliveryMethod" type="@salesforce/schema/OrderDeliveryMethod" label="Selected Cart Delivery Method"  />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

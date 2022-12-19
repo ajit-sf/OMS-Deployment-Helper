@@ -1,0 +1,14 @@
+.search-field-setting{
+    background: #f3f3f3;
+    border-radius : 25px;
+}
+
+@media (min-width: 48em){
+.slds-modal_medium .slds-modal__container {
+
+    max-width: 85rem !important;
+    width: 80% !important;
+
+}
+
+}

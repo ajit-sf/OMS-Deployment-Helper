@@ -1,0 +1,46 @@
+<template>
+    <div if:true={showTitle} class="heading slds-grid">
+        <span class="slds-align-middle">{labels.shippingMethod}</span>
+    </div>
+    <div class="slds-is-relative slds-p-around_large" if:false={showDeliveryMethods}>
+        <lightning-spinner if:true={isLoading} alternative-text="Loading" size="medium"></lightning-spinner>
+    </div>
+    <div if:true={showDeliveryMethods}>
+        <div class="">
+            <template for:each={deliveryMethods} for:item="deliveryMethod">
+                <div key={deliveryMethod.deliveryMethodId} class="slds-grid slds-var-p-bottom_xx-small">
+                    <input 
+                        if:true={deliveryMethod.checked}
+                        type="radio" 
+                        id={deliveryMethod.deliveryMethodId} 
+                        value={deliveryMethod.deliveryMethodId} 
+                        name="deliveryMethod"
+                        checked
+                        onchange={deliveryMethodSelectHandler} />
+                    <input 
+                        if:false={deliveryMethod.checked}
+                        type="radio" 
+                        id={deliveryMethod.deliveryMethodId} 
+                        value={deliveryMethod.deliveryMethodId} 
+                        name="deliveryMethod"
+                        onchange={deliveryMethodSelectHandler} />
+                    <label class="slds-col slds-var-p-left_x-small" for={deliveryMethod.deliveryMethodId}>
+                        <span class="slds-radio_faux"></span>
+                        <div class="slds-grid">
+                            <span class="slds-col slds-form-element__label">
+                                {deliveryMethod.carrier} {deliveryMethod.name}
+                            </span>
+                            <span class="slds-col_bump-left slds-form-element__label">
+                                <lightning-formatted-number 
+                                    value={deliveryMethod.shippingFee}
+                                    format-style="currency" 
+                                    currency-code={deliveryMethod.currencyIsoCode}>
+                                </lightning-formatted-number>
+                            </span>
+                        </div>
+                    </label>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

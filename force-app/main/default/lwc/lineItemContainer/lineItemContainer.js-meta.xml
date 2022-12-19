@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>OMS Order Entry Line Item V1</masterLabel>
+    <description>Component used for adding Line Items</description>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="recordId" label="Record Id" type="String" />
+            <property name="webstoreId" label="Webstore Id" type="String" />
+            <property name="searchResultFields" label="Search Result fields (Comma seperated API's)" type="String" />
+            <property name="searchResultMetaFieldAPI" label="Search Result Meta fields (Couple of fields and should be part of the searchResultFields)" type="String" />
+            <property name="searchResultSuggestionMax" label="Maximum number of results while suggestion" type="Integer" />
+            <property name="generatedCartId" label="Cart Id" type="String" />
+            <property name="searchResultFieldsLabel" label="Automatically generated field labels" type="String" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

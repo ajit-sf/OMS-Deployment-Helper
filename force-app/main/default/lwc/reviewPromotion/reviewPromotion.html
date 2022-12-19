@@ -1,0 +1,163 @@
+<!--
+  @description       : 
+  @author            : Ajitesh
+  @group             : 
+  @last modified on  : 11-29-2022
+  @last modified by  : Ajitesh
+-->
+<template>
+    <lightning-card  title="Review and Promotion">
+
+        <lightning-spinner alternative-text="Loading" variant="brand" if:true={isLoading} size="medium"></lightning-spinner>
+
+       <div class="slds-p-horizontal_small">
+        <lightning-layout horizontal-align="center" multiple-rows >
+            <lightning-layout-item padding="around-small"  if:true={isProductAdded}>
+                <table class="slds-table slds-table_fixed-layout slds-table_resizable-cols  slds-table_bordered slds-m-bottom_xx-large">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <template for:each={columns} for:item="col">
+                                <th class="" scope="col" key={col.fieldName}>
+                                    <div class="slds-truncate" title={col.label}>{col.label}</div>
+                                </th>
+                            </template>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={lineItemArr} for:item="item">
+                            <tr class="slds-hint-parent" key={item.Id}>
+                                <template for:each={item.arr} for:item="fieldVal">
+                                    <th  scope="row" key={fieldVal.key}>
+                                        <template if:true={fieldVal.isCurrency}>
+                                            <template if:false={fieldVal.promotionAppliedVal}>
+                                                <div class="slds-truncate">
+                                                    <lightning-formatted-number value={fieldVal.val} format-style="currency" currency-code="USD" currency-display-as="symbol"></lightning-formatted-number>
+                                                </div>
+                                                <template if:true={fieldVal.promotionApplied}>
+                                                    <div class="slds-truncate promotion"> Promotion Coupon Applied</div>
+                                                </template>
+                                            </template>
+                                            <template if:true={fieldVal.promotionAppliedVal}>
+                                                <div class="stroke_data"><s>
+                                                    <lightning-formatted-number value={fieldVal.val} format-style="currency" currency-code="USD" currency-display-as="symbol"></lightning-formatted-number>
+                                                </s>
+                                                </div>
+                    
+                                                <div class="slds-truncate promotion"> 
+                                                    <lightning-formatted-number value={fieldVal.newVal} format-style="currency" currency-code="USD" currency-display-as="symbol"></lightning-formatted-number>
+                                                </div>
+                                            </template>
+                                        </template>
+                                        <template if:false={fieldVal.isCurrency}>
+                                            <template if:false={fieldVal.promotionAppliedVal}>
+                                                <div class="slds-truncate">
+                                                    {fieldVal.val}
+                                                </div>
+                                                <template if:true={fieldVal.promotionApplied}>
+                                                    <div class="slds-truncate promotion"> Promotion Coupon Applied</div>
+                                                </template>
+                                            </template>
+                                            <template if:true={fieldVal.promotionAppliedVal}>
+                                                <div class="stroke_data"><s>
+                                                    {fieldVal.val}
+                                                </s>
+                                                </div>
+                    
+                                                <div class="slds-truncate promotion"> 
+                                                    {fieldVal.newVal}
+                                                </div>
+                                            </template>
+                                        </template>
+                                    </th>
+                                </template>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="12" if:false={isProductAdded}>
+                <div class="slds-align_absolute-center" style="height:5rem">No Items added! </div>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="12">
+                <div class="slds-grid promotionContainer">
+                    <div class="slds-col slds-size_9-of-12">Promotion Code
+                    </div>
+                    <div class="slds-col slds-size_3-of-12">Total (USD)
+                    </div>
+                </div>
+            </lightning-layout-item>
+
+            <lightning-layout-item padding="around-small" size="12">
+                <div class="slds-grid ">
+                    <div class="slds-col slds-size_9-of-12">
+        
+                        <div class="slds-form-element  slds-p-top_medium " style="    display: flex;">
+        
+                            <div class="slds-form-element__control  ">
+                                <input type="text" id="text-input-id-2" placeholder="Enter Coupon Code " onkeyup={handleCouponChange} class="slds-input" if:false={isCartCouponExist}/>
+                                <lightning-pill label={cartCouponCode} if:true={isCartCouponExist}></lightning-pill>
+                            </div>
+                            <button undefined-src_app="" class="slds-button slds-button_brand slds-m-left_small" onclick={handleApplyCoupon}>Apply</button>
+                            <button undefined-src_app="" class="slds-button slds-button_neutral slds-m-left_small" onclick={handleDeleteCoupon}>Clear</button>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_3-of-12">
+                        <div class="slds-grid border_add " style="justify-content:space-between;">
+                            <div>Subtotal
+                            </div>
+                            <div>
+                                <lightning-formatted-number value={cartSummary.totalProductAmount} format-style="currency" currency-code="USD" currency-display-as="symbol"></lightning-formatted-number>
+                                
+                            </div>
+                        </div>
+                        <div class="slds-grid border_add" style="justify-content:space-between;">
+                            <div>Order Adjustments
+                            </div>
+                            <div>
+                                <lightning-formatted-number value={cartSummary.totalPromotionalAdjustmentAmount} format-style="currency" currency-code="USD" currency-display-as="symbol"></lightning-formatted-number>
+                                
+                            </div>
+                        </div>
+                        <div class="slds-grid border_add" style="justify-content:space-between;    font-weight: 700;">
+                            <div>Grand Total
+                            </div>
+                            <div>
+                                <lightning-formatted-number value={cartSummary.totalProductAmountAfterAdjustments} format-style="currency" currency-code="USD" currency-display-as="symbol"></lightning-formatted-number>
+                            </div>
+                        </div>
+        
+                    </div>
+                </div>
+               <!-- <lightning-layout horizontal-align="center" multiple-rows>
+                    <lightning-layout-item class="font-helper" padding="around-small" size="4">
+                        <lightning-layout horizontal-align="center" multiple-rows>
+                            <lightning-layout-item  padding="around-small" size="8">
+                                <lightning-input
+                                    name="enter-search"
+                                    label="Search when user hits the 'enter' key"
+                                    variant="label-hidden"
+                                    placeholder="Search for coupons"
+                                    type="search"
+                                ></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item  padding="around-small" size="2">
+                                <lightning-button variant="brand" label="Apply" title="Apply" class="slds-m-left_x-small"></lightning-button>
+                            </lightning-layout-item>
+                            <lightning-layout-item  padding="around-small" size="2">
+                                <lightning-button label="Clear" title="Clear" class="slds-m-left_x-small"></lightning-button>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="4">
+
+                    </lightning-layout-item>
+                    <lightning-layout-item  class="font-helper slds-text-align_center" padding="around-small" size="4">
+            
+                    </lightning-layout-item>
+                </lightning-layout> -->
+            </lightning-layout-item>
+        </lightning-layout>
+       </div>
+        <p slot="footer"></p>
+    </lightning-card>
+</template>

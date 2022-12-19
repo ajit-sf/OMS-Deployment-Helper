@@ -1,0 +1,47 @@
+<!--
+@description       : OMS Order Entry Header component
+@author            : Ajitesh
+@group             : 
+@last modified on  : 10-06-2022
+@last modified by  : Ajitesh
+-->
+<template>
+    <lightning-card variant="narrow" icon-name={iconName}>
+        <div slot="title">
+            <h1 style="font-weight: 700;">{cardTitle}</h1>
+            <p class="slds-page-header__name-meta">{objectName} • {recordName}</p>
+        </div>
+        <div class="slds-p-horizontal_small">
+            <lightning-layout horizontal-align="center">
+                <lightning-layout-item padding="around-small" size="12">
+                    <div class="slds-path">
+                        <div class="slds-grid slds-path__track">
+                            <div class="slds-grid slds-path__scroller-container">
+                                <div class="slds-path__scroller">
+                                    <div class="slds-path__scroller_inner">
+                                        <ul class="slds-path__nav" role="listbox" aria-orientation="horizontal">
+                                            <template for:each={pathList} for:item="path">
+                                                <li key={path.label} class={path.classVal} role="presentation">
+                                                    <a aria-selected="false" class="slds-path__link"
+                                                        role="option" tabindex="-1">
+                                                        <span class="slds-path__stage">
+                                                            <lightning-icon variant="inverse" icon-name="utility:check" size="x-small" alternative-text="Check!" title="Check"></lightning-icon>
+                                                        </span>
+                                                        <span class="slds-path__title">{path.label}</span>
+                                                    </a>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+            
+        </div>
+
+
+    </lightning-card>
+</template>

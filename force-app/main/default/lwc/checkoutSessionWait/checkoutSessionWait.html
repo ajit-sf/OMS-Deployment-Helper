@@ -1,0 +1,6 @@
+<template>
+    <div class="slds-is-relative slds-p-around_large slds-text-align_center">
+        <span class="slds-p-top_x-small">{displayedMessage}</span>
+    </div>
+    <lightning-spinner if:true={isLoading} alternative-text="Loading" size="medium"></lightning-spinner>
+</template>

@@ -1,0 +1,124 @@
+<template>
+    <div if:true={showAddresses}>
+        <div class="slds-grid slds-gutters_x-small slds-wrap slds-var-m-bottom_small">
+            <template for:each={addresses} for:item="address">
+                <div key={address.addressId} class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-var-p-bottom_small">
+                    <div class="slds-visual-picker slds-visual-picker_vertical">
+                        <input 
+                            if:true={address.checked} 
+                            type="radio" 
+                            id={address.addressId} 
+                            value={address.addressId} 
+                            name="address"
+                            onchange={handleAddressSelect} 
+                            checked />
+                        <input 
+                            if:false={address.checked} 
+                            type="radio" 
+                            id={address.addressId} 
+                            value={address.addressId} 
+                            name="address"
+                            onchange={handleAddressSelect} />
+                        <label for={address.addressId}>
+                            <div class="slds-visual-picker__figure slds-visual-picker__text">
+                                <div class="slds-is-relative">
+                                    <h3 if:false={hideName} class="slds-text-heading_small slds-var-p-bottom_x-small">{address.name}</h3>
+                                    <div>
+                                        <lightning-formatted-address
+                                            street={address.street}
+                                            city={address.city}
+                                            country={address.country}
+                                            province={address.region}
+                                            postal-code={address.postalCode}
+                                            disabled
+                                        ></lightning-formatted-address> 
+                                    </div>
+                                    <lightning-badge 
+                                        if:true={address.isDefault}
+                                        class="slds-is-absolute default" 
+                                        label={labels.defaultText}>
+                                    </lightning-badge>
+                                </div>
+                            </div>
+                            <!-- <span class="slds-visual-picker__body">
+                                <span class="slds-text-heading_small">Lightning Professional</span>
+                            </span> -->
+                            <span class="slds-icon_container slds-visual-picker__text-check">
+                                <lightning-icon 
+                                    icon-name="utility:check" 
+                                    alternative-text="Selected" 
+                                    title="Selected" 
+                                    size="xx-small" 
+                                    variant="inverse">
+                                </lightning-icon>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </template>
+        </div>
+        <div>
+            <lightning-button 
+                variant="brand-outline" 
+                label={labels.newAddress}
+                title={labels.newAddress}
+                onclick={handleNewAddressClick}>
+            </lightning-button>
+        </div>
+    </div>
+    
+    <div if:true={newAddress}>
+        <div if:true={hasExistingAddresses}>
+            <lightning-button 
+                variant="base" 
+                label={labels.backToList}
+                title={labels.backToList}
+                icon-name="utility:back" 
+                class="slds-var-m-bottom_small"
+                onclick={handleBackToListClick}></lightning-button>
+        </div>
+        <div if:false={hideTitle} class="heading slds-grid">
+            <span class="slds-align-middle">{labels.newAddress}</span>
+        </div>
+        <div if:false={hideNameInput} class="slds-grid slds-gutters_xx-small slds-wrap slds-var-m-bottom_small">
+            <lightning-input 
+                type="text" 
+                label={labels.firstName}
+                name="FirstName"
+                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2" 
+                onchange={handleFirstNameChange}
+                required>
+            </lightning-input>
+            <lightning-input 
+                type="text" 
+                label={labels.lastName}
+                name="LastName"
+                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2" 
+                onchange={handleLastNameChange}
+                required>
+            </lightning-input>
+        </div>
+        <div class="slds-var-m-bottom_small">
+            <lightning-input-address
+                address-label="Address Details"
+                street-label={labels.street}
+                city-label={labels.city}
+                country-label={labels.country}
+                province-label={labels.state}
+                postal-code-label={labels.postalCode}
+                required
+                variant="label-hidden"
+                onchange={handleAddressChange}>
+            </lightning-input-address>
+        </div>
+        <div>
+            <lightning-input 
+                if:false={hideMakeDefaultAddress}
+                type="checkbox" 
+                label={labels.makeDefaultAddress}
+                name="makeDefault"
+                onchange={handleMakeDefaultAddress}>
+            </lightning-input>
+        </div>
+    </div>
+</template>

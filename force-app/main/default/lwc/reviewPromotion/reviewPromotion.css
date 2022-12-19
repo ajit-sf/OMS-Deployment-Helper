@@ -1,0 +1,32 @@
+.font-helper{
+    font-weight: var(--lwc-fontWeightBold);
+}
+
+.promotion{
+    color: #2E844A;
+}
+.stroke_data{
+  text-decoration: line-through;
+}
+
+.slds-table thead th {
+     background: #F3F3F3;
+  
+    padding: 0.5rem 0.5rem;
+   
+}
+
+
+.promotionContainer{
+      background: #F3F3F3;
+    padding: 0.5rem 0.5rem;
+    font-weight: 700;
+        border-bottom: 1px solid #dddbda;
+}
+
+.border_add{
+    
+    padding: 0.5rem 0.5rem;
+  
+        border-bottom: 1px solid #dddbda;
+}

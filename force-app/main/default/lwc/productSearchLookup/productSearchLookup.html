@@ -1,0 +1,73 @@
+<!--
+  @description       : 
+  @author            : Ajitesh
+  @group             : 
+  @last modified on  : 09-22-2022
+  @last modified by  : Ajitesh
+-->
+<template>
+    <div class="slds-form-element">
+        <label class="slds-form-element__label" for="combobox-id-2" id="combobox-label-id-6">Store search</label>
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container">
+                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                        <input type="text" class="slds-input slds-combobox__input slds-has-focus" id="combobox-id-2"
+                            aria-autocomplete="list" aria-controls="listbox-id-2" aria-expanded="true"
+                            aria-haspopup="listbox" autocomplete="off" role="combobox" onkeyup={handleProductSuggest}
+                            placeholder="Search..." onkeypress={handleProductMoreDetails}/>
+                        <span
+                            class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
+                            <lightning-icon icon-name="utility:search" size="x-small" alternative-text="search"
+                                title="Search" if:false={isLoading}></lightning-icon>
+                            <lightning-spinner alternative-text="Loading" size="small" variant="brand" if:true={isLoading}></lightning-spinner>
+                        </span>
+                    </div>
+                    <div if:true={isSuggestedItems} id="listbox-id-2"
+                        class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid" role="listbox">
+                        <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                            <li role="presentation" class="slds-listbox__item">
+                                <div aria-selected="true" id="option0"
+                                    class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_term slds-has-focus"
+                                    role="option">
+                                    <span class="slds-media__figure slds-listbox__option-icon">
+                                        <span class="slds-icon_container slds-icon-utility-search"
+                                            title="Search for term: ">
+                                            <lightning-icon icon-name="utility:search" size="x-small"
+                                                alternative-text="search" title="Search"></lightning-icon>
+                                            <span class="slds-assistive-text">Press Enter for more products
+                                                ......</span>
+                                        </span>
+                                    </span>
+                                    <span class="slds-media__body">
+                                        <span class="slds-listbox__option-text slds-listbox__option-text_entity">Press
+                                            enter for more details ...... </span>
+                                    </span>
+                                </div>
+                            </li>
+                            <template for:each={suggestedItems} for:item="item">
+                                <li role="presentation" class="slds-listbox__item" key={item.id} >
+                                    <div 
+                                        class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                        role="option" >
+                                        <span class="slds-media__figure slds-listbox__option-icon">
+                                            <span class="slds-icon_container slds-icon-standard-account">
+                                                <lightning-icon icon-name="standard:product" size="small"
+                                                    alternative-text="product" title="product"></lightning-icon>
+                                            </span>
+                                        </span>
+                                        <span class="slds-media__body">
+                                            <span
+                                                class="slds-listbox__option-text slds-listbox__option-text_entity" data-item={item.id} onclick={handleItemSelected}>{item.mainField}</span>
+                                            <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{item.metaField}</span>
+                                        </span>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

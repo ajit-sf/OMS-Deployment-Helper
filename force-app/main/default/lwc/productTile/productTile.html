@@ -1,0 +1,53 @@
+<!--
+@description       : 
+@author            : Ajitesh
+@group             : 
+@last modified on  : 11-16-2022
+@last modified by  : Ajitesh
+-->
+<template>
+    <div class="slds-grid">
+		<div class="productContainer slds-col">
+			<div class="slds-grid " style="  height: 190px;">
+			
+					<div class="image slds-col slds-size_4-of-12" style={backGroundUrl}>
+
+					</div>
+		
+
+				<div class="slds-p-around_small slds-col slds-size_8-of-12  " >
+					<div class=" content">
+						<!-- <div class="details slds-m-bottom_x-small">Classic 40 Litres Backpack for Laptop (Padded Shoulder Strap,
+							Grey)
+						</div> -->
+                        <template for:each={productDetailTransform.body} for:item="field">
+                            <div key={field.label} class="slds-grid slds-m-bottom_x-small">
+                                <div class="colorTitle slds-m-right_x-small slds-col slds-size_1-of-3 ">  {field.label} 
+                                </div>
+
+                                <span class="slds-m-right_xx-small slds-truncate slds-col slds-size_2-of-3" >{field.value}</span>
+                            </div>
+                        </template>
+					</div>
+				</div>
+
+			</div>
+			<div class="quantityContainer slds-p-around_small">
+				<div class="qualityLeft">
+					Price : <lightning-formatted-number value={productDetail.prices.unitPrice} format-style="currency" currency-code="USD" currency-display-as="symbol"></lightning-formatted-number>
+				</div>
+
+				<div>
+
+					<span class=" quantityAdd slds-m-right_xx-small"  role="button" onclick={handleSubtractQuantity}>-</span>
+					<span class="quantityAdd slds-m-right_xx-small"  role="button">
+                        {quantity}
+                    </span>
+
+					<span class="quantityAdd" onclick={handleAddNewQuantity}  role="button">+</span>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

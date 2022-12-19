@@ -1,0 +1,28 @@
+<template>
+    <div if:false={hideTitle} class="heading slds-grid">
+        <span class="slds-align-middle">{labels.selectShippingAddress}</span>
+    </div>
+    <c-address-selector
+        if:true={shippingAddresses}
+        addresses={shippingAddresses}
+        selected-address-id={selectedAddressId}
+        hide-title={hideTitle}
+        hide-name="false"
+        hide-name-input="false"
+        hide-make-default-address="false"
+        address-type="Shipping"
+        onaddressselectevent={handleAddressSelectEvent}>
+    </c-address-selector>
+
+    <div if:false={hideSpecialInstructions} class="slds-grid slds-var-m-top_small slds-var-m-bottom_medium">
+        <div class="slds-col slds-size_1-of-1">
+            <lightning-input 
+                type="text" 
+                label={labels.specialInstructions}
+                placeholder={labels.specialInstructionsPlaceholder}
+                onchange={specialInstructionsChangeHandler}
+                >
+            </lightning-input>
+        </div>
+    </div>
+</template>

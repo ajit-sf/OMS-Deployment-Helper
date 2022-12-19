@@ -1,0 +1,186 @@
+<!--
+  @description       : 
+  @author            : Sakshi, Ajitesh
+  @group             : 
+  @last modified on  : 11-21-2022
+  @last modified by  : Ajitesh
+-->
+<template>
+    <lightning-card title="Summary & Submit">
+        <lightning-spinner alternative-text="Loading" variant="brand" if:true={isLoading} size="medium"></lightning-spinner>
+        <div class="slds-p-horizontal_small">
+            <lightning-layout horizontal-align="center" multiple-rows >
+                <lightning-layout-item padding="around-small"  if:true={isProductAdded}>
+                    <table class="slds-table slds-table_fixed-layout slds-table_resizable-cols slds-table_cell-buffer slds-table_bordered slds-m-bottom_xx-large">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <template for:each={columns} for:item="col">
+                                    <th  scope="col" key={col.fieldName}>
+                                        <div class="slds-truncate" title={col.label}>{col.label}</div>
+                                    </th>
+                                </template>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={lineItemArr} for:item="item">
+                                <tr class="slds-hint-parent" key={item.Id}>
+                                    <template for:each={item.arr} for:item="fieldVal">
+                                        <th  scope="row" key={fieldVal.key}>
+                                            <template if:true={fieldVal.isCurrency}>
+                                                <template if:false={fieldVal.promotionAppliedVal}>
+                                                    <div class="slds-truncate">
+                                                        <lightning-formatted-number value={fieldVal.val} format-style="currency" currency-code="USD" currency-display-as="symbol"></lightning-formatted-number>
+                                                    </div>
+                                                    <template if:true={fieldVal.promotionApplied}>
+                                                        <div class="slds-truncate promotion"> Promotion Coupon Applied</div>
+                                                    </template>
+                                                </template>
+                                                <template if:true={fieldVal.promotionAppliedVal}>
+                                                    <div class="stroke_data"><s>
+                                                        <lightning-formatted-number value={fieldVal.val} format-style="currency" currency-code="USD" currency-display-as="symbol"></lightning-formatted-number>
+                                                    </s>
+                                                    </div>
+                        
+                                                    <div class="slds-truncate promotion"> 
+                                                        <lightning-formatted-number value={fieldVal.newVal} format-style="currency" currency-code="USD" currency-display-as="symbol"></lightning-formatted-number>
+                                                    </div>
+                                                </template>
+                                            </template>
+                                            <template if:false={fieldVal.isCurrency}>
+                                                <template if:false={fieldVal.promotionAppliedVal}>
+                                                    <div class="slds-truncate">
+                                                        {fieldVal.val}
+                                                    </div>
+                                                    <template if:true={fieldVal.promotionApplied}>
+                                                        <div class="slds-truncate promotion"> Promotion Coupon Applied</div>
+                                                    </template>
+                                                </template>
+                                                <template if:true={fieldVal.promotionAppliedVal}>
+                                                    <div class="stroke_data"><s>
+                                                        {fieldVal.val}
+                                                    </s>
+                                                    </div>
+                        
+                                                    <div class="slds-truncate promotion"> 
+                                                        {fieldVal.newVal}
+                                                    </div>
+                                                </template>
+                                            </template>
+                                        </th>
+                                    </template>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="12" if:false={isProductAdded}>
+                    <div class="slds-align_absolute-center" style="height:5rem">No Items added! </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="12">
+                    <div class="slds-grid promotionContainer">
+                        <div class="slds-col slds-size_9-of-12">
+                            Shipping & Delivery
+                        </div>
+                        <div class="slds-col slds-size_3-of-12">Total (USD)
+                        </div>
+                    </div>
+                </lightning-layout-item>
+    
+                <lightning-layout-item padding="around-small" size="12">
+                    <div class="slds-grid ">
+                        <div class="slds-col slds-size_9-of-12">
+                            <div class="app slds-p-bottom_medium" style="  padding: 0.5rem 0.5rem;">
+                
+                                <div>
+                                    <div class="slds-text-title_bold"> Ship to
+                                    </div>
+                        
+                                    <p>
+                                        {cartGroupDelivery.DeliverToName}
+                                    </p>
+                        
+                                    <p>
+                                        {cartGroupDelivery.DeliverToStreet}
+                                    </p>
+                                    <p>
+                                        {cartGroupDelivery.DeliverToCity}
+                                    </p>
+                                    <p>{cartGroupDelivery.DeliverToState}, {cartGroupDelivery.DeliverToPostalCode}
+                                    </p>
+                                    <p>{cartGroupDelivery.DeliverToCountry}
+                                    </p>
+                                </div>
+                                <div>
+                                </div>
+                            </div>
+                        
+                            <div class="app slds-p-bottom_medium" style="  padding: 0.5rem 0.5rem;">
+                        
+                                <div>
+                                    <div class="slds-text-title_bold"> Shipping Method
+                                    </div>
+                        
+                                    <p>
+                                        {cartDeliveryMethod.Name}
+                                    </p>
+                        
+                        
+                                </div>
+                        
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_3-of-12">
+                            <div class="slds-grid border_add " style="justify-content:space-between;">
+                                <div>Subtotal
+                                </div>
+                                <div>
+                                    <lightning-formatted-number value={cartSummary.totalProductAmount} format-style="currency" currency-code="USD" currency-display-as="symbol"></lightning-formatted-number>
+                                    
+                                </div>
+                            </div>
+                            <div class="slds-grid border_add" style="justify-content:space-between;">
+                                <div>Order Adjustments
+                                </div>
+                                <div>
+                                    <lightning-formatted-number value={cartSummary.totalPromotionalAdjustmentAmount} format-style="currency" currency-code="USD" currency-display-as="symbol"></lightning-formatted-number>
+                                    
+                                </div>
+                            </div>
+                            <div class="slds-grid border_add" style="justify-content:space-between;">
+                                <div>Shipping
+                                </div>
+                                <div>
+                                    <lightning-formatted-number value={cartSummary.totalChargeAmount} format-style="currency" currency-code="USD" currency-display-as="symbol"></lightning-formatted-number>
+                                </div>
+                            </div>
+                            <div class="slds-grid border_add" style="justify-content:space-between;">
+                                <div>Tax
+                                </div>
+                                <div>
+                                    <lightning-formatted-number value={cartSummary.totalTaxAmount} format-style="currency" currency-code="USD" currency-display-as="symbol"></lightning-formatted-number>
+                                </div>
+                            </div>
+                            <div class="slds-grid border_add" style="justify-content:space-between;    font-weight: 700;">
+                                <div>Grand Total
+                                </div>
+                                <div>
+                                    <lightning-formatted-number value={cartSummary.grandTotalAmount} format-style="currency" currency-code="USD" currency-display-as="symbol"></lightning-formatted-number>
+                                </div>
+                            </div>
+            
+                        </div>
+                    </div>
+                </lightning-layout-item>
+                <!-- <lightning-layout-item padding="around-small" size="12">
+                    <div class="  shippingContainer">
+                        <div class="slds-text-heading_small">Shipping & Delivery
+                        </div>
+                
+                    </div>
+                
+                    
+                </lightning-layout-item> -->
+            </lightning-layout>
+           </div>
+    </lightning-card>
+</template>

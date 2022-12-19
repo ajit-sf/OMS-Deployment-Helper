@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <isExposed>true</isExposed>
+    <masterLabel>Delivery Methods</masterLabel>
+    <description>OMS Order Entry - Delivery Methods Component</description>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="showTitle" type="Boolean" label="Show Title" default="true" />
+            <property name="cartId" type="String" label="Cart Id" default=""
+                description="Which cart the delivery methods are for?" />
+            <property name="selectedDeliveryMethodId" type="String" label="Order Delivery Method Id"
+                description="Leave blank unless you would like to set a default" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

@@ -1,0 +1,47 @@
+<!--
+  @description       : 
+  @author            : Ajitesh
+  @group             : 
+  @last modified on  : 11-17-2022
+  @last modified by  : Ajitesh
+-->
+<template>
+
+    <lightning-card title="Line Items">
+
+        <lightning-spinner alternative-text="Loading" variant="brand" if:true={isLoading} size="medium"></lightning-spinner>
+
+        <lightning-button label="Add Item" onclick={handleProductSearch} icon-name="utility:add" icon-position="right" slot="actions"></lightning-button>
+        <div class="slds-p-horizontal_small">
+            <lightning-layout horizontal-align="center">
+                <lightning-layout-item padding="around-small" size="12">
+                    <template if:false={isItemExist}>
+                        <div class="slds-align_absolute-center" style="height:5rem">No Items added!</div>
+                    </template>
+
+                    <template if:true={isItemExist}>
+                        <lightning-datatable
+                            key-field="id"
+                            data={lineItemsArr}
+                            columns={columns}
+                            hide-checkbox-column
+                            onrowaction={handleRowAction}
+                            onsave={handleSave}
+                            draft-values={tempDraftValues}
+                            >
+                    </lightning-datatable>
+                    </template>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+        <div slot="footer">
+            <lightning-layout>
+                <lightning-layout-item class="slds-text-align_right" padding="around-small" size="12" >
+                    <lightning-button variant="brand" label="Next" title="Next" onclick={handleNextFlowChange} class="slds-m-left_x-small"></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </lightning-card>
+    
+    <c-product-search search-result-fields-label={searchResultFieldsLabel}  onaddedproduct={handleProductAddition} onclosesearch={handleCloseSearch} if:true={isProductSearch} search-result-suggestion-max={searchResultSuggestionMax}  search-result-meta-field-a-p-i={searchResultMetaFieldAPI} search-result-fields={searchResultFields} record-id={recordId} webstore-id={webstoreId}></c-product-search>
+</template>
